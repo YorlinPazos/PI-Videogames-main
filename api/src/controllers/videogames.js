@@ -143,7 +143,7 @@ class VideogameModel extends ModelCrud {
                 next(error);
              }
         }
-    };
+    };                                 // Crear videogame
                            
     post = async (req, res, next) => {
                     
