@@ -17,7 +17,7 @@ class VideogameModel extends ModelCrud {
         if(isNaN(id)){     // Si NO es un numero, busca en la Base de datos
           
             let videogameIdDb = await this.model.findOne({
-                attributes: ['name', 'description', 'image', 'released', 'rating', 'platforms'],
+                attributes: ['name','id', 'description', 'image', 'released', 'rating', 'platforms'],
                 where: {
                     id: id     //Localizo donde el id del modelo sea = id por params
                 },
@@ -40,7 +40,7 @@ class VideogameModel extends ModelCrud {
                 id: vgIdApi.data.id,
                 name: vgIdApi.data.name,
                 description: vgIdApi.data.description,
-                released: vgIdApi.data.released,      //traigo y hago mapeo lo necesario
+                released: vgIdApi.data.released,      
                 image: vgIdApi.data.background_image,
                 rating: vgIdApi.data.rating,
                 platforms: vgIdApi.data.platforms.map(el => el.platform.name),
@@ -68,7 +68,7 @@ class VideogameModel extends ModelCrud {
             let name = req.query.name.toLowerCase()
             try {                      //busco en la database, y traigo sólo las propiedades que quiero. 
                 let queryGameDB = await this.model.findAll({
-                    attributes: ['id', 'name', /*'description',*/ 'image', /*'released',*/ 'rating',/* 'platforms'*/],
+                    attributes: ['id', 'name','image','rating'],
                     where:{
                         name : {
                             [Op.iLike]: `%${name}%`  
@@ -82,13 +82,13 @@ class VideogameModel extends ModelCrud {
                 Promise.all([queryGameDB, queryApiName])
                 .then((results)=>{
                     let [queryGameDBResult, queryApiNameResult] = results;
-                    let resultApi = queryApiNameResult.data.results.map(el => {
+                    let resultApi = queryApiNameResult.data.results.map(el => { //* Promise all reiterativo, revisar!!! *//
                         return {
                             name: el.name,
                             genres: el.genres.map((el)=> el.name), 
                             id: el.id,
                             rating: el.rating,
-                            image: el.rating,
+                            image: el.background_image,
                         }
                     })
                     const response = queryGameDBResult.concat(resultApi)
@@ -127,11 +127,8 @@ class VideogameModel extends ModelCrud {
                         name: el.name,
                         genres: el.genres.map((el)=> el.name),
                         id: el.id,  
-                        image: el.image, 
-                        description: el.description,
-                        released: el.released,
+                        image: el.background_image, 
                         rating: el.rating,
-                        platforms: el.platforms.map((el)=> el.platform.name),
                     }
                 })
                 results = [...results, ...gamesMap]  //concateno api y bdd con el spread operator.

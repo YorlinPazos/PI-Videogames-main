@@ -1,6 +1,6 @@
 
 const initialState = {
-    videogames : []                // esta linea la tenia con un = y se pintaba de rojo.
+    videogames : []         
 }
 
 
@@ -11,7 +11,10 @@ function rootReducer (state= initialState, action){
                 ...state,
                 videogames: action.payload
             }
+            default: 
+                 return state;
     }
+    
 }
 
 
