@@ -11,21 +11,19 @@ export default function Home(){
 
     const dispatch = useDispatch()
     const allVideogames = useSelector ((state)=> state.videogames)
-    const [currentPage, setCurrentPage] = (1)
-    const [videogamesPerPage, setVideogamesPerPage] = useState(16)
+    //declaro est. local, y págania actual. la pag. actual arranca en 1
+    const [currentPage, setCurrentPage] = useState(1)
+    const [videogamesPerPage, setVideogamesPerPage] = useState(15 )
     const indexOfLastVideogame = currentPage * videogamesPerPage // 15? ponte de acuerdo selene jejej
-    const indexOffirstVideogame = indexOfLastVideogame - videogamesPerPage // 0
-    const currentVideogames = allVideogames.slice(indexOffirstVideogame, indexOfLastVideogame)
+    const indexOfFirstVideogame = indexOfLastVideogame - videogamesPerPage // 0
+    const currentVideogames = allVideogames.slice(indexOfFirstVideogame, indexOfLastVideogame)
 
 
     const paginado = (pageNumber) =>{
         setCurrentPage(pageNumber)
     }
 
-    // 1------0------16
-    // 2------17------33   revisar mejor esta logica
-
-    useEffect(()=>{
+    useEffect (()=>{
         dispatch(getVideogames())
     },[dispatch]);
 
@@ -67,11 +65,11 @@ return(
             />
           {currentVideogames?.map((el) =>{
             return(
-                <fragment>
+                <div>
                 <Link to={"/home/" + el.id}>
-                <Card name={el.name} image={el.image} genres={el.genres} /> 
+                <Card name={el.name} image={el.image} genres={el.genres} key={el.id} /> 
                 </Link>
-                </fragment>
+                </div>
             );
         })}
           </div>

@@ -102,7 +102,7 @@ class VideogameModel extends ModelCrud {
             }catch (error) {
                 next(error)
             }
-        }
+        }                                
                               // si no hay query trae todo, tanto de bdd como de la api
         else if (!req.query.name) {
             try{
