@@ -4,14 +4,26 @@ import {useDispatch, useSelector} from 'react-redux';
 import { getVideogames } from '../actions';
 import {Link} from 'react-router-dom';
 import Card from './Card'
-
+import Paginado from './Paginado'
 
 
 export default function Home(){
 
     const dispatch = useDispatch()
     const allVideogames = useSelector ((state)=> state.videogames)
+    const [currentPage, setCurrentPage] = (1)
+    const [videogamesPerPage, setVideogamesPerPage] = useState(16)
+    const indexOfLastVideogame = currentPage * videogamesPerPage // 15? ponte de acuerdo selene jejej
+    const indexOffirstVideogame = indexOfLastVideogame - videogamesPerPage // 0
+    const currentVideogames = allVideogames.slice(indexOffirstVideogame, indexOfLastVideogame)
 
+
+    const paginado = (pageNumber) =>{
+        setCurrentPage(pageNumber)
+    }
+
+    // 1------0------16
+    // 2------17------33   revisar mejor esta logica
 
     useEffect(()=>{
         dispatch(getVideogames())
@@ -48,7 +60,12 @@ return(
                 <option value="create">From Database</option>
                 <option value="api">From api</option>
             </select>
-          {allVideogames?.map((el) =>{
+            <Paginado
+            videogamesPerPage= {videogamesPerPage}
+            allVideogames={allVideogames.length}
+            paginado = {paginado}
+            />
+          {currentVideogames?.map((el) =>{
             return(
                 <fragment>
                 <Link to={"/home/" + el.id}>
