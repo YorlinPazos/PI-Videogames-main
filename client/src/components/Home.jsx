@@ -1,7 +1,7 @@
 import React from "react";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { getVideogames } from '../actions';
+import { getVideogames} from '../actions';
 import {Link} from 'react-router-dom';
 import Card from './Card'
 import Paginado from './Paginado'
@@ -13,9 +13,13 @@ export default function Home(){
     const allVideogames = useSelector ((state)=> state.videogames)
     //declaro est. local, y págania actual. la pag. actual arranca en 1
     const [currentPage, setCurrentPage] = useState(1)
-    const [videogamesPerPage, setVideogamesPerPage] = useState(15 )
-    const indexOfLastVideogame = currentPage * videogamesPerPage // 15? ponte de acuerdo selene jejej
-    const indexOfFirstVideogame = indexOfLastVideogame - videogamesPerPage // 0
+    //luego otro est. local, donde tengo la cantidad de vg por página
+    const [videogamesPerPage, setVideogamesPerPage] = useState(15)
+    //indice del ultimo vg es igual a la pagina por el numero de vg por pagina
+    const indexOfLastVideogame = currentPage * videogamesPerPage
+    //indice del primer vg sera igual a la pagina act. mult. por los vig por pag.
+    const indexOfFirstVideogame = indexOfLastVideogame - videogamesPerPage
+    //medio confuso este.
     const currentVideogames = allVideogames.slice(indexOfFirstVideogame, indexOfLastVideogame)
 
 
@@ -33,6 +37,8 @@ function handleClick(event){
 };
 
 
+
+
                         //Crear vg, recargar los videojuegos, ordenar a-z o z-a , botones de opciones
                         //por rating bajo, por rating alto, por genero
 return(
@@ -40,24 +46,26 @@ return(
          <Link to= '/videogame'>Create videogame</Link>
          <h1>Titulo de la página</h1>
          <button onClick={event=> {handleClick(event)}}>
-            volver a cargar todos los personajes
+            reload videogames
          </button>
           <div>
             <select>
-              <option value="asc">Ascendente</option>
-              <option value="desc">Ascendente</option>
+              <option value='All'>A to Z</option>
+              <option value='Action'>Z to A</option>
             </select>
             <select>
-                <option value="rating">By rating</option> 
+                <option value='rating'>Rating order</option> 
+                <option value='high'>High rating</option>
+                <option value='low'>Low rating</option>
             </select>
             <select>
-                <option value="genre">By genre</option>
+                <option value='genre'>By genre</option>
             </select>
             <select>
-                <option value="All">All</option>
-                <option value="create">From Database</option>
-                <option value="api">From api</option>
-            </select>
+                <option value='All'>All</option>
+                <option value='create'>Created</option>
+                <option value='Exist'>Existing</option>
+            </select>   
             <Paginado
             videogamesPerPage= {videogamesPerPage}
             allVideogames={allVideogames.length}

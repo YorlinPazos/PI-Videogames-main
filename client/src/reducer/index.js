@@ -1,16 +1,33 @@
+import { GET_VIDEOGAMES, GET_GENRES,
+         FILTER_GENRE, FILTER_CREATED,
+         ORDER_BY_NAME, ORDER_BY_RATING,
+         GET_BY_NAME, CREATE_VIDEOGAME,
+         GET_DETAILS } from '../actionTypes'
+
 
 const initialState = {
-    videogames : []         
+    videogames : [],   
+    allVideogames: []     
 }
 
 
 function rootReducer (state= initialState, action){
     switch(action.type) {
-        case 'GET_VIDEOGAMES': 
+        case GET_VIDEOGAMES: 
             return{
                 ...state,
-                videogames: action.payload
+                videogames: action.payload,
+                allVideogames: action.payload
             }
+            case FILTER_GENRE:
+                const allVideogames = state.videogames  
+                const statusFiltered = action.payload === 'All' ? allVideogames :
+                      allVideogames.filter(el => el.genres === action.payload)
+                return{
+                    ...state,
+                    videogames: statusFiltered
+
+                }
             default: 
                  return state;
     }
