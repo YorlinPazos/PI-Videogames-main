@@ -177,13 +177,13 @@ class VideogameModel extends ModelCrud {
             let genresDb = await Genre.findAll({
                 where: {
                         name : genres // si del genre sea igual que el del body, se agrega
-                    },
+                    }, 
         });
             videogameCreated.addGenre(genresDb)
             res.status(201).json({
                 data: videogameCreated,
                 message: 'El Videojuego ha sido creado exitosamente'
-            })
+            }) 
     }   catch (error) {
             next(error)
             }
