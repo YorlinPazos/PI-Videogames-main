@@ -11,7 +11,7 @@ export function getVideogames(){
             type: GET_VIDEOGAMES,
             payload: json.data
         })
-    }
+    } 
 }
 
 

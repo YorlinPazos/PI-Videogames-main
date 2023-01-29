@@ -1,7 +1,7 @@
 import React from "react";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { getVideogames} from '../actions';
+import { getVideogames, filterCreated} from '../actions';
 import {Link} from 'react-router-dom';
 import Card from './Card'
 import Paginado from './Paginado'
@@ -36,11 +36,10 @@ function handleClick(event){
     dispatch(getVideogames())
 };
 
+function handleFilterCreated(event){
+    dispatch(filterCreated(event.target.value))
+}
 
-
-
-                        //Crear vg, recargar los videojuegos, ordenar a-z o z-a , botones de opciones
-                        //por rating bajo, por rating alto, por genero
 return(
     <div>
          <Link to= '/videogame'>Create videogame</Link>
@@ -61,9 +60,9 @@ return(
             <select>
                 <option value='genre'>By genre</option>
             </select>
-            <select>
+            <select onChange={event => handleFilterCreated(event)}>
                 <option value='All'>All</option>
-                <option value='create'>Created</option>
+                <option value='created'>Created</option>
                 <option value='Exist'>Existing</option>
             </select>   
             <Paginado
@@ -85,4 +84,3 @@ return(
 )
 
 };
-

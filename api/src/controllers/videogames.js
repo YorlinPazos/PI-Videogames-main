@@ -107,17 +107,29 @@ class VideogameModel extends ModelCrud {
         else if (!req.query.name) {
             try{
                 const videogameDB = await this.model.findAll({
-                    include:[{
-                        model: Genre,
-                        attributes: ["name"],
+                    attributes: ['id','name', 'image', 'rating', 'createdInDB'],
+            include: [{
+                model: Genre,
+                attributes: ["name"],
                         through: {
-                            attributes: []
-                        }
-                     }
-                  ]
-                });
+                        attributes: [],
+                    },
+                }] 
+            });
+
+            const genreName = videogameDB.map(el => {
+                return{
+                    name: el.name,
+                    genres: el.genres.map((el)=> el.name),
+                    id: el.id,  
+                    image: el.image, 
+                    rating: el.rating,
+                    createdInDB: el.createdInDB
+                }
+            });
             
-            let results = [...videogameDB] //Traigo lo que tengo en bdd
+            let results = [...genreName] //Traigo lo que tengo en bdd
+            
             let pages = 0;
             let response = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
             while(pages < 5){ //obtener 100 resultados.
