@@ -4,7 +4,7 @@ import { GET_VIDEOGAMES, GET_GENRES, FILTER_GENRE, FILTER_CREATED, ORDER_BY_NAME
 
 export function getVideogames(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/videogames",{              // Surge la magia
+        var json = await axios.get("http://localhost:3001/videogames",{              //  ok
         });
        
         return dispatch({
@@ -17,7 +17,7 @@ export function getVideogames(){
 
 export function getGenres(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/videogames",{              // Surge la magia
+        var json = await axios.get("http://localhost:3001/videogames",{           
         });
        
         return dispatch({
@@ -35,14 +35,14 @@ export function filterGenre(payload){
     }
 }
 
-export function filterCreated(payload){
+export function filterCreated(payload){                      // ok
     return {
         type: FILTER_CREATED,
         payload
     }
 }
 
-export function orderByName(payload){
+export function orderByName(payload){                      // Load...
     return {
         type: ORDER_BY_NAME,
         payload

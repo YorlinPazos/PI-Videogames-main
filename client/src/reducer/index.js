@@ -19,24 +19,40 @@ switch(action.type) {
            videogames: action.payload,
            allVideogames: action.payload
        }
-    //    case FILTER_GENRE:
-    //        const allVideogames = state.videogames  
-    //        const statusFiltered = action.payload === 'All' ? allVideogames :
-    //              allVideogames.filter(el => el.genres === action.payload)
-    //        return{
-    //            ...state,
-    //            videogames: statusFiltered    
-    //        }
         case FILTER_CREATED:
             const createdFilter = action.payload === 'created' ? state.allVideogames.filter(el => el.createdInDB) : state.allVideogames.filter(el => !el.createdInDB)
             return{
                 ...state,
                 videogames: createdFilter
             }
+        case ORDER_BY_NAME:
+            let sortedArr = action.payload === 'asc' ?
+                state.videogames.sort(function (a, b){
+                    if(a.name > b.name){
+                        return 1;
+                    }
+                    if(b.name > a.name){
+                        return -1;
+                    }
+                    return 0;
+                }) : 
+                state.videogames.sort(function(a, b){
+                    if (a.name > b.name){
+                        return -1;
+                    }
+                    if (b.name > a.name){
+                        return 1;     
+                    }
+                    return 0;
+                })
+                return {
+                    ...state,
+                    videogames: sortedArr
+                }
        default: 
             return state;
-}
 
+    }
 }
 
 
