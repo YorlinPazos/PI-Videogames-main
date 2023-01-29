@@ -15,19 +15,6 @@ export function getVideogames(){
 }
 
 
-export function getGenres(){
-    return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/videogames",{           
-        });
-       
-        return dispatch({
-            type: GET_GENRES,
-            payload: json.data
-        })
-    }
-}
-
-
 export function filterGenre(payload){
     return {
         type: FILTER_GENRE,
@@ -42,7 +29,7 @@ export function filterCreated(payload){                      // ok
     }
 }
 
-export function orderByName(payload){                      // Load...
+export function orderByName(payload){                      // ok
     return {
         type: ORDER_BY_NAME,
         payload
@@ -56,14 +43,20 @@ export function orderByRating(payload){
     }
 }
 
-export function getByName(name){
+export function getByName(name){                           // in process
     return async function (dispatch){
-        var json = await axios.get(`http://localhost:3001/videogames?name=${name}`)
+        try {
+            var json = await axios.get(`http://localhost:3001/videogames?name=${name}`);
         return dispatch({
             type: GET_BY_NAME,
             payload: json.data
         })
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
+
 }
 
 export function postVideogame(payload){

@@ -13,18 +13,26 @@ allVideogames: []
 
 function rootReducer (state= initialState, action){
 switch(action.type) {
-   case GET_VIDEOGAMES: 
-       return{
-           ...state,
-           videogames: action.payload,
-           allVideogames: action.payload
-       }
+     case GET_VIDEOGAMES: 
+        return{
+              ...state,
+              videogames: action.payload,
+              allVideogames: action.payload
+        }
+        
+       case GET_BY_NAME:
+        return{
+            ...state,
+            videogames: action.payload
+        }    
+
         case FILTER_CREATED:
             const createdFilter = action.payload === 'created' ? state.allVideogames.filter(el => el.createdInDB) : state.allVideogames.filter(el => !el.createdInDB)
             return{
                 ...state,
                 videogames: createdFilter
-            }
+        }
+
         case ORDER_BY_NAME:
             let sortedArr = action.payload === 'asc' ?
                 state.videogames.sort(function (a, b){

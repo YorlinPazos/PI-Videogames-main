@@ -68,7 +68,7 @@ class VideogameModel extends ModelCrud {
             let name = req.query.name.toLowerCase()
             try {                      //busco en la database, y traigo sólo las propiedades que quiero. 
                 let queryGameDB = await this.model.findAll({
-                    attributes: ['id', 'name','image','rating'],
+                    attributes: ['id', 'name','image','rating', 'createdInDB'],
                     where:{
                         name : {
                             [Op.iLike]: `%${name}%`  
@@ -78,11 +78,22 @@ class VideogameModel extends ModelCrud {
                         model: Genre             //vinculo el género a mi busqueda por bdd
                     }]          
                 });
-                let queryApiName = axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`);
-                Promise.all([queryGameDB, queryApiName])
-                .then((results)=>{
-                    let [queryGameDBResult, queryApiNameResult] = results;
-                    let resultApi = queryApiNameResult.data.results.map(el => { //* Promise all reiterativo, revisar!!! *//
+
+                const mapClear = queryGameDB.map(el => {
+                    return{
+                        name: el.name,
+                        genres: el.genres.map((el)=> el.name),
+                        id: el.id,  
+                        image: el.image, 
+                        rating: el.rating,
+                        createdInDB: el.createdInDB
+                    }
+                });
+
+                let results = [...mapClear]
+
+                let mapResult = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`);
+                    let mapClearApi = mapResult.data.results.map(el => { 
                         return {
                             name: el.name,
                             genres: el.genres.map((el)=> el.name), 
@@ -91,13 +102,12 @@ class VideogameModel extends ModelCrud {
                             image: el.background_image,
                         }
                     })
-                    const response = queryGameDBResult.concat(resultApi)
-                    if(response.length){
-                        res.send(response.slice(0, 15))  // Me pedían sólo los 15 primeros resultados
+                    results = [...results, ...mapClearApi] 
+                    if(results.length){
+                        res.send(results.slice(0, 15))  // Me pedían sólo los 15 primeros resultados
                     }else{
                         return res.status(404).json(`No se encontro ningun videojuego con el nombre "${req.query.name}"`);
                     }
-                })
                
             }catch (error) {
                 next(error)
@@ -117,7 +127,7 @@ class VideogameModel extends ModelCrud {
                 }] 
             });
 
-            const genreName = videogameDB.map(el => {
+            const genreNameClear = videogameDB.map(el => {
                 return{
                     name: el.name,
                     genres: el.genres.map((el)=> el.name),
@@ -128,7 +138,7 @@ class VideogameModel extends ModelCrud {
                 }
             });
             
-            let results = [...genreName] //Traigo lo que tengo en bdd
+            let results = [...genreNameClear] //Traigo lo que tengo en bdd
             
             let pages = 0;
             let response = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)

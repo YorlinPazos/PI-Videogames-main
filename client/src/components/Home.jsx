@@ -5,6 +5,7 @@ import { getVideogames, filterCreated, orderByName} from '../actions';
 import {Link} from 'react-router-dom';
 import Card from './Card'
 import Paginado from './Paginado'
+import SearchBar from "./SearchBar";
 
 
 export default function Home(){
@@ -33,13 +34,13 @@ export default function Home(){
         dispatch(getVideogames())
     },[dispatch]);
 
-function handleClick(event){
-    event.preventDefault()
+function handleClick(e){
+    e.preventDefault()
     dispatch(getVideogames())
 };
 
-function handleFilterCreated(event){
-    dispatch(filterCreated(event.target.value))
+function handleFilterCreated(e){
+    dispatch(filterCreated(e.target.value))
 }
 
 function handleSort(e){
@@ -54,7 +55,7 @@ return(
     <div>
          <Link to= '/videogame'>Create videogame</Link>
          <h1>Titulo de la página</h1>
-         <button onClick={event=> {handleClick(event)}}>
+         <button onClick={e=> {handleClick(e)}}>
             reload videogames
          </button>
           <div>
@@ -70,7 +71,7 @@ return(
             <select>
                 <option value='genre'>By genre</option>
             </select>
-            <select onChange={event => handleFilterCreated(event)}>
+            <select onChange={e => handleFilterCreated(e)}>
                 <option value='All'>All</option>
                 <option value='created'>Created</option>
                 <option value='Exist'>Existing</option>
@@ -80,6 +81,8 @@ return(
             allVideogames={allVideogames.length}
             paginado = {paginado}
             />
+            <SearchBar/>
+            </div>
           {currentVideogames?.map((el) =>{
             return(
                 <div>
@@ -87,9 +90,9 @@ return(
                 <Card name={el.name} image={el.image} genres={el.genres} key={el.id} /> 
                 </Link>
                 </div>
+
             );
         })}
-          </div>
     </div>  
 )
 
