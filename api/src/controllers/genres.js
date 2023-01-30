@@ -14,9 +14,16 @@ class GenresModel extends ModelCrud {
                  
         //Empiezo preguntando si hay info en la db, si da true la retorno y corto.
 
-                const dbLog = await this.model.findAll()
+                const dbLog = await this.model.findAll({
+                    attributes: ['name'],
+                })
         try {
-            if(dbLog.length) return res.send(dbLog)
+            let dbClear = dbLog.map(el => {
+                return{
+                   name: el.name
+                }
+            })
+            if(dbClear.length) return res.send(dbClear)
             
                         //si no había info en mi database me voy a la API
             const response = await axios.get((`https://api.rawg.io/api/genres?key=${API_KEY}`))

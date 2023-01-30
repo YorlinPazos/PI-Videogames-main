@@ -6,13 +6,14 @@ const router = Router();
 
 const GenreRoutes = require('./genres');
 const VideogameRoutes = require('./videogames');
-
+const createVideogameRoute = require('./create')
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 
-router.use("/videogames", VideogameRoutes);  //lo dejo todo en videogames, pero cambia el método.
-router.use('/genres', GenreRoutes);
+router.use("/videogames", VideogameRoutes);  
+router.use("/genres", GenreRoutes);
+router.use("/create", createVideogameRoute);
 
 
 

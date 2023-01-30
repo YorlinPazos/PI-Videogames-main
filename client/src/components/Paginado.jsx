@@ -19,3 +19,4 @@ export default function Paginado ({videogamesPerPage, allVideogames, paginado}){
         </nav>
     )    
 }
+

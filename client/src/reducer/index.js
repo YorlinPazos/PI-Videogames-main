@@ -7,7 +7,8 @@ import { GET_VIDEOGAMES, GET_GENRES,
 
 const initialState = {
 videogames : [],   
-allVideogames: []     
+allVideogames: [],
+genres: []    
 }
 
 
@@ -25,6 +26,17 @@ switch(action.type) {
             ...state,
             videogames: action.payload
         }    
+
+        case GET_GENRES:
+            return{
+                ...state
+            }
+
+        case CREATE_VIDEOGAME:
+            return{
+                ...state,
+                genres: action.payload
+            }
 
         case FILTER_CREATED:
             const createdFilter = action.payload === 'created' ? state.allVideogames.filter(el => el.createdInDB) : state.allVideogames.filter(el => !el.createdInDB)

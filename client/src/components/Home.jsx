@@ -13,7 +13,7 @@ export default function Home(){
     const dispatch = useDispatch()
     const allVideogames = useSelector ((state)=> state.videogames)
     //uso esto para que cuando seteo la pag(1), modifique el est. local y se renderize
-    const [orden, setOrden] = useState('')
+    const [orden, setOrder] = useState('') 
     //declaro est. local, y págania actual. la pag. actual arranca en 1
     const [currentPage, setCurrentPage] = useState(1)
     //luego otro est. local, donde tengo la cantidad de vg por página
@@ -41,13 +41,13 @@ function handleClick(e){
 
 function handleFilterCreated(e){
     dispatch(filterCreated(e.target.value))
-}
+}     
 
 function handleSort(e){
     e.preventDefault();
     dispatch(orderByName(e.target.value))
     setCurrentPage(1);
-    setOrden(`Ordenado${e.target.value}`)
+    setOrder(`Ordenado${e.target.value}`)
 }
 
 

@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getByName } from "../actions";
+import { getNameVideogames } from "../actions";
 
 export default function SearchBar(){
     const dispatch = useDispatch()
-    const {name,setName} = useState("")
+    const [name, setName] = useState('')
 
 function handleInputChange(e){
         e.preventDefault()
@@ -15,18 +15,14 @@ function handleInputChange(e){
 
 function handleSubmit(e){
     e.preventDefault()
-    dispatch(getByName(name))
+    dispatch(getNameVideogames(name))
+    setName("")
 }
 
     return (
         <div> 
-            <input
-            type='text'
-            placeholder = "Search..."
-            onChange={(e) => handleInputChange(e)}
-            />
-            <button type='submit' onClick={(e) =>
-             handleSubmit(e)}>Search</button>
+            <input type='text' placeholder = "Search..." onChange= {(e) => handleInputChange(e)} value={name}/>
+            <button type='submit' onClick={(e) => handleSubmit(e)}>Search</button>
         </div>
     )
 
