@@ -130,7 +130,8 @@ class VideogameModel extends ModelCrud {
             const genreNameClear = videogameDB.map(el => {
                 return{
                     name: el.name,
-                    genres: el.genres.map((el)=> el.name),
+                    // genres: el.genres.map((el)=> el.name),
+                    genres: el.genres.map(el => el.name),
                     id: el.id,  
                     image: el.image, 
                     rating: el.rating,
@@ -147,7 +148,8 @@ class VideogameModel extends ModelCrud {
                 const gamesMap = response.data.results.map(el => {
                     return {
                         name: el.name,
-                        genres: el.genres.map((el)=> el.name),
+                        // genres: el.genres.map((el)=> el.name),
+                        genres: el.genres.map(el => el.name),
                         id: el.id,  
                         image: el.background_image, 
                         rating: el.rating,
@@ -186,7 +188,7 @@ class VideogameModel extends ModelCrud {
             })
             let genresDb = await Genre.findAll({
                 where: {
-                        name : genres // si del genre sea igual que el del body, se agrega
+                        name : genres // si el genre es igual que el que pasan por body, se agrega
                     }, 
         });
             videogameCreated.addGenre(genresDb)

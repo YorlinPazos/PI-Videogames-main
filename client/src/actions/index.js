@@ -61,7 +61,7 @@ export function getNameVideogames(name){                           //ok
 
 export function getGenres(){
     return async function(dispatch){
-        var info = await axios("http://localhost:3001/genres",{
+        var info = await axios.get("http://localhost:3001/genres",{            //load...
 
         })
         return dispatch({type: GET_GENRES, payload: info.data})
@@ -70,7 +70,7 @@ export function getGenres(){
 
 export function postVideogame(payload){
     return async function(dispatch){
-        var response = await axios.post("http://localhost:3001/create", payload)
+        var response = await axios.post("http://localhost:3001/create", payload)  //load...
         console.log(response)
         return response;
     }

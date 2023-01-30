@@ -29,13 +29,13 @@ switch(action.type) {
 
         case GET_GENRES:
             return{
-                ...state
+                ...state,
+                genres: action.payload
             }
 
         case CREATE_VIDEOGAME:
             return{
                 ...state,
-                genres: action.payload
             }
 
         case FILTER_CREATED:

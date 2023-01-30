@@ -3,9 +3,9 @@ import {Link,useHistory} from 'react-router-dom';
 import { postVideogame, getGenres } from '../actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function videogameCreate(){
+export default function VideogameCreate(){
     const dispatch = useDispatch()
-    const genres = useSelector((state)=> state.genres)
+    const genres = useSelector((state) => state.genres)
 
     const [input, setInput] = useState({
                 name: "",
@@ -13,7 +13,7 @@ export default function videogameCreate(){
                 released: "",
                 rating: "",
                 image: "",
-                platforms: [],
+                platforms: "",
                 genres:[]
     })
 
@@ -32,6 +32,7 @@ export default function videogameCreate(){
                     type= "text"
                     value= {input.name}
                     name= "name"
+
                     />
                 </div>
                 <div>
@@ -72,9 +73,17 @@ export default function videogameCreate(){
                     type= "checkbox"
                     name= "Play Station 5"
                     value= "Play station 5"
-                    />Play Statio 5
+                    />Play Station 5
                     </label>
                 </div>
+                <select>
+                    {genres.map((gen) => (
+                        <option value={gen.name}>{gen.name}</option>
+                    ))}
+                </select>
+
+                <button type='submit'>Create Videogame</button>
+
             </form>
         </div>
     )
