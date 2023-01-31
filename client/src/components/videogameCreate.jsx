@@ -15,7 +15,7 @@ export default function VideogameCreate(){
                 rating: "",
                 image: "",
                 platforms: [],
-                genres: genres[0] ? [genres[0].name] : []
+                genres: [] 
     })
 
     
@@ -38,7 +38,7 @@ export default function VideogameCreate(){
             name:" ",
             description:"",
             released:"",
-            rating:"",
+            rating: 0,
             image:"",
             platforms:[],
             genres:[]
@@ -119,10 +119,10 @@ export default function VideogameCreate(){
                      name="platforms" 
                     onChange={(e)=> handlePlatformSelect(e)}
                     >
-                        <option value="PC">PC</option>
-            <option value="Linux">MacOs</option>
-            <option value="macOS">Android</option>
-            <option value="Android">Sega</option>
+            <option value="PC">PC</option>
+            <option value="MacOs">MacOs</option>
+            <option value="Android">Android</option>
+            <option value="Sega">Sega</option>
             <option value="iOs">iOs</option>
             <option value="PS2">PlayStation 2</option>
             <option value="PS3">PlayStation 3</option>
