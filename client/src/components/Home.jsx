@@ -13,7 +13,7 @@ export default function Home(){
     const dispatch = useDispatch()
     const allVideogames = useSelector ((state)=> state.videogames)
     //uso esto para que cuando seteo la pag(1), modifique el est. local y se renderize
-    const [orden, setOrder] = useState('') 
+    const [order, setOrder] = useState('') 
     //declaro est. local, y págania actual. la pag. actual arranca en 1
     const [currentPage, setCurrentPage] = useState(1)
     //luego otro est. local, donde tengo la cantidad de vg por página
