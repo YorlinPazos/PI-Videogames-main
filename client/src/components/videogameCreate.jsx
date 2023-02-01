@@ -3,6 +3,18 @@ import {Link,useHistory} from 'react-router-dom';
 import { postVideogame, getGenres } from '../actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 
+function validate(input){
+    let errors = {};
+    if(!input.name){
+        errors.name = 'se requiere un Nombre';
+    }
+    else if(!input.talcosa){
+        errors.talcolsa = 'talcosa debe ser completada';
+    }
+}
+
+
+
 export default function VideogameCreate(){ 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -38,7 +50,7 @@ export default function VideogameCreate(){
             name:" ",
             description:"",
             released:"",
-            rating: 0,
+            rating: "",
             image:"",
             platforms:[],
             genres:[]
@@ -65,7 +77,7 @@ export default function VideogameCreate(){
 
     return(
         <div>
-            <Link to= '/home'><button>Volver</button></Link>
+            <Link to= '/home'><button>Back</button></Link>
             <h1>Create your videogame</h1>
             <form onSubmit={(e)=>handleSubmit(e)}>
                 <div>
@@ -114,11 +126,12 @@ export default function VideogameCreate(){
                      />
                 </div>
                 <div>
-                    <label>platforms:</label> 
+                    <label>Platforms:</label> 
                     <select
-                     name="platforms" 
+                     name="Platforms" 
                     onChange={(e)=> handlePlatformSelect(e)}
                     >
+            <option disabled selected>Select an option</option>
             <option value="PC">PC</option>
             <option value="MacOs">MacOs</option>
             <option value="Android">Android</option>
@@ -136,11 +149,16 @@ export default function VideogameCreate(){
             <option value="New Nintendo 3DS XL">New Nintendo 3DS XL</option>
                     </select>
                 </div>
+                <div>
+                    <label>Genres:</label>
                 <select onChange={(e) => handleGenresSelect(e)}>
+                        <option disabled selected>Select an option</option>
                     {genres.map((gen) => {
                         return <option key={gen.id} value={gen.name}>{gen.name}</option>
                         })}
                 </select>
+                </div>
+
                         <ul><li>{input.genres.map(el => el + " ,")}</li></ul>
                 <button type='submit'>Create Videogame</button>
 

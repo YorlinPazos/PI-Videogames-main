@@ -17,14 +17,21 @@ class VideogameModel extends ModelCrud {
         if(isNaN(id)){     // Si NO es un numero, busca en la Base de datos
           
             let videogameIdDb = await this.model.findOne({
-                attributes: ['name','id', 'description', 'image', 'released', 'rating', 'platforms'],
+                attributes: ['id', 'name', 'description', 'released', 'image', 'rating', 'platforms'],
                 where: {
                     id: id     //Localizo donde el id del modelo sea = id por params
-                },
-                include: [{
-                    model: Genre
+                },      
+            include: [{
+                model: Genre,
+                attributes: ["name"],
+                        through: {
+                        attributes: [],
+                    },
                 }] 
             });
+            // include: [{
+            //     model: Genre
+            // }] 
                 if(videogameIdDb){
                   res.send(videogameIdDb)
                   }  
