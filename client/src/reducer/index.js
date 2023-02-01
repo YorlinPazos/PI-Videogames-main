@@ -7,6 +7,7 @@ import { GET_VIDEOGAMES, GET_GENRES,
 
 const initialState = {
 videogames : [],   
+detail: [],
 allVideogames: [],
 genres: []    
 }
@@ -44,6 +45,12 @@ switch(action.type) {
                 ...state,
                 videogames: createdFilter
         }
+
+        case GET_DETAILS:
+            return{
+                ...state,
+                detail: action.payload
+            }
 
         case ORDER_BY_NAME:
             let sortedArr = action.payload === 'asc' ?

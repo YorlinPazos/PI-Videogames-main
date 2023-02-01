@@ -17,7 +17,7 @@ class VideogameModel extends ModelCrud {
         if(isNaN(id)){     // Si NO es un numero, busca en la Base de datos
           
             let videogameIdDb = await this.model.findOne({
-                attributes: ['id', 'name', 'description', 'released', 'image', 'rating', 'platforms'],
+                attributes: ['id', 'name', 'description', 'released', 'image', 'rating', 'platforms', 'createdInDB'],
                 where: {
                     id: id     //Localizo donde el id del modelo sea = id por params
                 },      
@@ -29,15 +29,22 @@ class VideogameModel extends ModelCrud {
                     },
                 }] 
             });
-            // include: [{
-            //     model: Genre
-            // }] 
+
+                // if(videogameIdDb){
+                //   res.send(videogameIdDb)
+                //   }  
+                //   else{
+                //    res.status(404).json({message: 'El videojuego no existe en la Base de datos'})
+                // }      
+                
+                videogameIdDb = JSON.stringify(videogameIdDb);
+                videogameIdDb = JSON.parse(videogameIdDb);
+                videogameIdDb.genres = videogameIdDb.genres.map(g => g.name);
                 if(videogameIdDb){
-                  res.send(videogameIdDb)
-                  }  
-                  else{
-                   res.status(404).json({message: 'El videojuego no existe en la Base de datos'})
-                }                      
+                    res.send(videogameIdDb)
+                }else{
+                    res.status(404).send('El videojuego no existe en base de datos')
+                }
         };
 
         if(!isNaN(id)){              //  si SI es un número busca en API
@@ -138,8 +145,8 @@ class VideogameModel extends ModelCrud {
                 return{
                     name: el.name,
                     // genres: el.genres.map((el)=> el.name),
-                    genres: el.genres.map(el => el.name),
-                    id: el.id,  
+                    genres: el.genres.map(el => el.name), 
+                    id: el.id,
                     image: el.image, 
                     rating: el.rating,
                     createdInDB: el.createdInDB

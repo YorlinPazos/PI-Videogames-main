@@ -3,14 +3,17 @@ import {Link,useHistory} from 'react-router-dom';
 import { postVideogame, getGenres } from '../actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 
+
+
 function validate(input){
     let errors = {};
     if(!input.name){
         errors.name = 'se requiere un Nombre';
     }
-    else if(!input.talcosa){
-        errors.talcolsa = 'talcosa debe ser completada';
+    else if(!input.description){
+        errors.description = 'description es obligatorio';
     }
+    return errors;
 }
 
 
@@ -19,6 +22,8 @@ export default function VideogameCreate(){
     const dispatch = useDispatch()
     const history = useHistory()
     const genres = useSelector((state) => state.genres)
+    const [errors, setErrors] = useState({})
+
 
     const [input, setInput] = useState({
                 name: "",
@@ -39,8 +44,14 @@ export default function VideogameCreate(){
         setInput({
             ...input,
             [e.target.name] : e.target.value
-        })
-    }
+        })  
+        setErrors(validate({
+            ...input,
+            [e.target.name] : e.target.value
+        }))
+        console.log(input)
+        
+}           
 
     function handleSubmit(e){
         e.preventDefault();
@@ -77,7 +88,7 @@ export default function VideogameCreate(){
 
     return(
         <div>
-            <Link to= '/home'><button>Back</button></Link>
+            <Link to= '/home'><button>Go Back</button></Link>
             <h1>Create your videogame</h1>
             <form onSubmit={(e)=>handleSubmit(e)}>
                 <div>
@@ -88,6 +99,9 @@ export default function VideogameCreate(){
                     name= "name"
                     onChange={(e)=>handleChange(e)}
                     />
+                    {errors.name && (
+                        <p className='error'>{errors.name}</p>
+                    )}
                 </div>
                 <div>
                     <label>Description:</label>

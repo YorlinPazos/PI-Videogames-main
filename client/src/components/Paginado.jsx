@@ -8,14 +8,14 @@ export default function Paginado ({videogamesPerPage, allVideogames, paginado}){
     }
     return(
         <nav>
-            <ul className='paginado'>
+            <div className='paginado'>
                 {   pageNumbers && 
                     pageNumbers.map(number => (
-                        <li className='number' key={number}>
-                        <a onClick={() => paginado(number)}>{number}</a>
-                        </li>
+                        <button className='number' key={number}>
+                        <a href onClick={() => paginado(number)}>{number}</a>
+                        </button>
                     ))}
-            </ul>
+            </div>
         </nav>
     )    
 }
